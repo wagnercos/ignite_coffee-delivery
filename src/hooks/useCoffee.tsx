@@ -1,83 +1,83 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
-import { CoffeeProps } from '../pages/Home/CoffeeList/ index'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
 interface ChildrenType {
   children: React.ReactNode
 }
 
-export interface CoffeeItem extends CoffeeProps {
+interface CoffeeType extends Array<string> {}
+
+interface CoffeeProps {
+  id: number
+  title?: string
+  type?: CoffeeType
+  price?: number
+  description?: string
+  image?: string
+}
+
+export interface CoffeeAddQuantityProps extends CoffeeProps {
   quantity: number
 }
 
 interface CoffeeContextType {
-  coffees: CoffeeItem[]
-  // addToCart: (coffee: Omit<CoffeeProps, 'quantity'>) => void
-  addToCart: (coffee: CoffeeProps) => void
+  coffees: CoffeeAddQuantityProps[]
+  addToCart: (coffee: CoffeeAddQuantityProps) => void
   removeFromCart: (id: number) => void
   increment: (id: number) => void
 }
 
-const CoffeeContext = createContext<CoffeeContextType | null>(null)
+const CoffeeContext = createContext<CoffeeContextType>({
+  coffees: [],
+  addToCart: () => {},
+  removeFromCart: () => {},
+  increment: () => {},
+})
 
 export function CoffeeProvider({ children }: ChildrenType) {
-  const [coffees, setCoffees] = useState<CoffeeItem[]>([])
+  const [coffees, setCoffees] = useState<CoffeeAddQuantityProps[]>([])
 
   useEffect(() => {
-    localStorage.setItem('@CoffeeDelivery', JSON.stringify(coffees))
-  }, [coffees])
+    async function loadCoffees(): Promise<void> {
+      const storagedProducts = localStorage.getItem('@CoffeeDelivery')
 
-  const addToCart = useCallback(
-    (coffee: CoffeeProps) => {
-      const coffeeExist = coffees.find((c) => c.id === coffee.id)
-      if (coffeeExist) {
-        coffeeExist.quantity += 1
-        setCoffees((state) => [...state])
-      } else {
-        setCoffees((state) => [...state, { ...coffee, quantity: 1 }])
+      if (storagedProducts) {
+        setCoffees([...JSON.parse(storagedProducts)])
       }
-    },
-    [coffees],
-  )
+    }
 
-  const increment = useCallback(
-    (id: number) => {
-      const coffeeExist = coffees.find((c) => c.id === id)
+    loadCoffees()
+  }, [])
 
-      if (coffeeExist && coffeeExist.quantity === 0) {
-        setCoffees(
-          coffees.map((coffee) =>
-            coffee.id === id
-              ? { ...coffee, quantity: coffee.quantity + 1 }
-              : coffee,
-          ),
-        )
-      }
-    },
-    [coffees],
-  )
+  function addToCart(coffee: CoffeeAddQuantityProps) {
+    const coffeeExist = coffees.find((c) => c.id === coffee.id)
+    if (!coffeeExist) {
+      setCoffees((state) => [...state, { ...coffee, quantity: 1 }])
+      localStorage.setItem('@CoffeeDelivery', JSON.stringify(coffee))
+    } else {
+      setCoffees((state) => [...state])
+    }
+  }
 
-  const removeFromCart = useCallback(
-    (id: number) => {
-      const coffeeRemoved = coffees.filter((c) => c.id !== id)
-      setCoffees(coffeeRemoved)
-    },
-    [coffees],
-  )
+  function increment(id: number) {
+    const newCoffee = coffees.map((c) =>
+      c.id === id ? { ...c, quantity: c.quantity + 1 } : c,
+    )
+    setCoffees(newCoffee)
+    localStorage.setItem('@CoffeeDelivery', JSON.stringify(newCoffee))
+  }
 
-  const value = useMemo(
-    () => ({ coffees, addToCart, removeFromCart, increment }),
-    [coffees, addToCart, removeFromCart, increment],
-  )
+  function removeFromCart(id: number) {
+    const coffeeRemoved = coffees.filter((coffee) => coffee.id !== id)
+    setCoffees(coffeeRemoved)
+    localStorage.setItem('@CoffeeDelivery', JSON.stringify(coffeeRemoved))
+  }
 
   return (
-    <CoffeeContext.Provider value={value}>{children}</CoffeeContext.Provider>
+    <CoffeeContext.Provider
+      value={{ coffees, addToCart, removeFromCart, increment }}
+    >
+      {children}
+    </CoffeeContext.Provider>
   )
 }
 

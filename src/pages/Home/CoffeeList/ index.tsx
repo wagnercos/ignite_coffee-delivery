@@ -1,56 +1,46 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { LargeCard } from '../../../components/LargeCard'
-import { useCoffee } from '../../../hooks/useCoffee'
+import { CoffeeAddQuantityProps, useCoffee } from '../../../hooks/useCoffee'
+
 import api from '../../../services/api'
 
 import { CoffeeListContainer, CoffeeContent } from './styles'
 
-interface CoffeeType extends Array<string> {}
-
-export interface CoffeeProps {
-  id?: number
-  title: string
-  type?: CoffeeType
-  price: number
-  description?: string
-  image: string
-  quantity: number
-}
-
 export function CoffeeList() {
-  const [coffees, setCoffees] = useState<CoffeeProps[]>([])
+  const { addToCart, coffees } = useCoffee()
 
-  const coffeeContext = useCoffee()
+  const [coffeesApi, setCoffeesApi] = useState<CoffeeAddQuantityProps[]>([])
 
   useEffect(() => {
     async function loadCoffees() {
       const response = await api.get('/coffees')
-      const data = response.data.map((coffee: CoffeeProps) => ({
+      const data = response.data.map((coffee: CoffeeAddQuantityProps) => ({
         ...coffee,
-        price: coffee.price
-          .toLocaleString('pt-BR', {
+        price: coffee
+          .price!.toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL',
             currencyDisplay: 'code',
           })
           .replace('BRL', '')
           .trim(),
+        quantity: 1,
       }))
       console.log(data)
-      setCoffees(data)
+      setCoffeesApi(data)
     }
     loadCoffees()
-  }, [])
+  }, [coffees])
 
-  function handleAddToCart(coffee: CoffeeProps): void {
-    coffeeContext?.addToCart(coffee)
+  function handleAddToCart(coffee: CoffeeAddQuantityProps) {
+    addToCart(coffee)
   }
 
   return (
     <CoffeeListContainer>
       <h2>Nossos cafés</h2>
       <CoffeeContent>
-        {coffees.map((coffee) => (
+        {coffeesApi.map((coffee) => (
           <LargeCard
             key={coffee.id}
             id={coffee.id}
@@ -59,8 +49,8 @@ export function CoffeeList() {
             price={coffee.price}
             description={coffee.description}
             image={coffee.image}
-            onAddToCart={() => handleAddToCart(coffee)}
             quantity={coffee.quantity}
+            onAddToCart={() => handleAddToCart(coffee)}
           />
         ))}
       </CoffeeContent>
