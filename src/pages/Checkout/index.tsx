@@ -125,7 +125,6 @@ export function Checkout() {
                   image={coffee.image}
                   title={coffee.title}
                   price={coffee.price}
-                  quantity={coffee.quantity}
                   onRemoveFromCart={() => handleRemoveFromCart(coffee.id)}
                 />
                 <Separator />

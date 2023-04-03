@@ -18,7 +18,6 @@ export function SmallCard({
   image,
   title,
   price,
-  quantity,
   onRemoveFromCart,
 }: SmallCardType) {
   return (
@@ -28,7 +27,7 @@ export function SmallCard({
         <Details>
           <p>{title}</p>
           <Actions>
-            <Counter id={id} quantity={quantity} />
+            <Counter id={id} />
             <ButtonDelete type="button" onClick={onRemoveFromCart}>
               <Trash size={16} />
               <span>Remover</span>

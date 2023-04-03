@@ -1,4 +1,4 @@
-import { ShoppingCart } from 'phosphor-react'
+import { Plus } from 'phosphor-react'
 import { CoffeeAddQuantityProps } from '../../hooks/useCoffee'
 import { Counter } from '../Counter'
 
@@ -23,7 +23,6 @@ export function LargeCard({
   description,
   image,
   price,
-  quantity,
   onAddToCart,
 }: LargeCardType) {
   return (
@@ -48,9 +47,9 @@ export function LargeCard({
         </Price>
 
         <AmountSetting>
-          <Counter id={id} quantity={quantity} />
+          <Counter id={id} />
           <ButtonAddToCart type="button" onClick={onAddToCart}>
-            <ShoppingCart size={20} weight="fill" />
+            <Plus size={18} weight="bold" />
           </ButtonAddToCart>
         </AmountSetting>
       </FooterCard>

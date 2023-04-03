@@ -6,7 +6,8 @@
         "type": ["tradicional"],
         "price": 9.90,
         "description": "O tradicional café feito com água quente e grãos moídos.",
-        "image": "https://i.ibb.co/Vqkm6s1/cafe-expresso.png"
+        "image": "https://i.ibb.co/Vqkm6s1/cafe-expresso.png",
+        "quantity": 0
       },
       {
         "id": 2,
@@ -14,7 +15,8 @@
         "type": ["tradicional"],
         "price": 9.90,
         "description": "Expresso diluído, menos intenso que o tradicional.",
-        "image": "https://i.ibb.co/MVzwRVB/cafe-americano.png"
+        "image": "https://i.ibb.co/MVzwRVB/cafe-americano.png",
+        "quantity": 0
       },
       {
         "id": 3,
@@ -22,7 +24,8 @@
         "type": ["tradicional"],
         "price": 9.90,
         "description": "Café expresso tradicional com espuma cremosa.",
-        "image": "https://i.ibb.co/Tm0L253/cafe-expresso-cremoso.png"
+        "image": "https://i.ibb.co/Tm0L253/cafe-expresso-cremoso.png",
+        "quantity": 0
       },
       {
         "id": 4,
@@ -30,7 +33,8 @@
         "type": ["tradicional", "gelado"],
         "price": 9.90,
         "description": "Bebida preparada com café expresso e cubos de gelo.",
-        "image": "https://i.ibb.co/bK0scLW/cafe-gelado.png"
+        "image": "https://i.ibb.co/bK0scLW/cafe-gelado.png",
+        "quantity": 0
       },
       {
         "id": 5,
@@ -38,7 +42,8 @@
         "type": ["tradicional", "com leite"],
         "price": 9.90,
         "description": "Meio a meio de expresso tradicional com leite vaporizado.",
-        "image": "https://i.ibb.co/10kjkrd/cafe-leite.png"
+        "image": "https://i.ibb.co/10kjkrd/cafe-leite.png",
+        "quantity": 0
       },
       {
         "id": 6,
@@ -46,7 +51,8 @@
         "type": ["tradicional", "com leite"],
         "price": 9.90,
         "description": "Uma dose de café expresso com o dobro de leite e espuma cremosa.",
-        "image": "https://i.ibb.co/NYn6VCQ/cafe-latte.png"
+        "image": "https://i.ibb.co/NYn6VCQ/cafe-latte.png",
+        "quantity": 0
       },
       {
         "id": 7,
@@ -54,7 +60,8 @@
         "type": ["tradicional", "com leite"],
         "price": 9.90,
         "description": "Bebida com canela feita de doses iguais de café, leite e espuma.",
-        "image": "https://i.ibb.co/G0bHstW/cafe-capuccino.png"
+        "image": "https://i.ibb.co/G0bHstW/cafe-capuccino.png",
+        "quantity": 0
       },
       {
         "id": 8,
@@ -62,7 +69,8 @@
         "type": ["tradicional", "com leite"],
         "price": 9.90,
         "description": "ECafé expresso misturado com um pouco de leite quente e espuma.",
-        "image": "https://i.ibb.co/nMTJ34b/cafe-macchiato.png"
+        "image": "https://i.ibb.co/nMTJ34b/cafe-macchiato.png",
+        "quantity": 0
       },
       {
         "id": 9,
@@ -70,7 +78,8 @@
         "type": ["tradicional", "com leite"],
         "price": 9.90,
         "description": "Café expresso com calda de chocolate, pouco leite e espuma.",
-        "image": "https://i.ibb.co/G5ZyWWG/cafe-mocaccino.png"
+        "image": "https://i.ibb.co/G5ZyWWG/cafe-mocaccino.png",
+        "quantity": 0
       },
       {
         "id": 10,
@@ -78,7 +87,8 @@
         "type": ["especial", "gelado"],
         "price": 9.90,
         "description": "Bebida feita com chocolate dissolvido no leite quente e café.",
-        "image": "https://i.ibb.co/Db9v12R/cafe-chocolate-quente.png"
+        "image": "https://i.ibb.co/Db9v12R/cafe-chocolate-quente.png",
+        "quantity": 0
       },
       {
         "id": 11,
@@ -86,7 +96,8 @@
         "type": ["especial", "alcóolico", "gelado"],
         "price": 9.90,
         "description": "Drink gelado de café expresso com rum, creme de leite e hortelã.",
-        "image": "https://i.ibb.co/JBgKZmk/cafe-cubano.png"
+        "image": "https://i.ibb.co/JBgKZmk/cafe-cubano.png",
+        "quantity": 0
       },
       {
         "id": 12,
@@ -94,7 +105,8 @@
         "type": ["especial"],
         "price": 9.90,
         "description": "Bebida adocicada preparada com café e leite de coco.",
-        "image": "https://i.ibb.co/7GZ071s/cafe-havaiano.png"
+        "image": "https://i.ibb.co/7GZ071s/cafe-havaiano.png",
+        "quantity": 0
       },
       {
         "id": 13,
@@ -102,7 +114,8 @@
         "type": ["especial"],
         "price": 9.90,
         "description": "Bebida preparada com grãos de café árabe e especiarias.",
-        "image": "https://i.ibb.co/MkwRxWB/cafe-arabe.png"
+        "image": "https://i.ibb.co/MkwRxWB/cafe-arabe.png",
+        "quantity": 0
       },
       {
         "id": 14,
@@ -110,7 +123,8 @@
         "type": ["especial", "alcóolico"],
         "price": 9.90,
         "description": "Bebida a base de café, uísque irlandês, açúcar e chantilly.",
-        "image": "https://i.ibb.co/kB4jzJj/cafe-irlandes.png"
+        "image": "https://i.ibb.co/kB4jzJj/cafe-irlandes.png",
+        "quantity": 0
       }
     ]
   }

@@ -16,28 +16,27 @@ export interface CoffeeProps {
 }
 
 export interface CoffeeAddQuantityProps extends CoffeeProps {
-  quantity: number
+  quantity?: number
 }
 
 interface CoffeeContextType {
   coffeesCart: CoffeeAddQuantityProps[]
-  quantity: number
   addToCart: (coffee: CoffeeAddQuantityProps) => void
   removeFromCart: (id: number) => void
   increment: (id: number) => void
+  decrement: (id: number) => void
 }
 
 const CoffeeContext = createContext<CoffeeContextType>({
   coffeesCart: [],
-  quantity: 1,
   addToCart: () => {},
   removeFromCart: () => {},
   increment: () => {},
+  decrement: () => {},
 })
 
 export function CoffeeProvider({ children }: ChildrenType) {
   const [coffeesCart, setCoffeesCart] = useState<CoffeeAddQuantityProps[]>([])
-  const [quantity, setQuantity] = useState(1)
 
   useEffect(() => {
     async function loadCoffees(): Promise<void> {
@@ -63,10 +62,16 @@ export function CoffeeProvider({ children }: ChildrenType) {
 
   function increment(id: number) {
     const newCoffee = coffeesCart.map((c) =>
-      c.id === id ? { ...c, quantity: c.quantity + 1 } : c,
+      c.id === id ? { ...c, quantity: c.quantity! + 1 } : c,
     )
-    const newQuantity = newCoffee.find((c) => c.id === id)
-    setQuantity(newQuantity!.quantity)
+    setCoffeesCart(newCoffee)
+    localStorage.setItem('@CoffeeDelivery', JSON.stringify(newCoffee))
+  }
+
+  function decrement(id: number) {
+    const newCoffee = coffeesCart.map((c) =>
+      c.id === id && c.quantity! > 1 ? { ...c, quantity: c.quantity! - 1 } : c,
+    )
     setCoffeesCart(newCoffee)
     localStorage.setItem('@CoffeeDelivery', JSON.stringify(newCoffee))
   }
@@ -79,7 +84,13 @@ export function CoffeeProvider({ children }: ChildrenType) {
 
   return (
     <CoffeeContext.Provider
-      value={{ coffeesCart, addToCart, removeFromCart, quantity, increment }}
+      value={{
+        coffeesCart,
+        addToCart,
+        removeFromCart,
+        increment,
+        decrement,
+      }}
     >
       {children}
     </CoffeeContext.Provider>

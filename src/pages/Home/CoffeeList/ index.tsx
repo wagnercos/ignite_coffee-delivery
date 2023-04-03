@@ -7,7 +7,7 @@ import api from '../../../services/api'
 import { CoffeeListContainer, CoffeeContent } from './styles'
 
 export function CoffeeList() {
-  const { addToCart, quantity } = useCoffee()
+  const { addToCart } = useCoffee()
 
   const [coffees, setCoffees] = useState<CoffeeAddQuantityProps[]>([])
 
@@ -47,7 +47,6 @@ export function CoffeeList() {
             price={coffee.price}
             description={coffee.description}
             image={coffee.image}
-            quantity={quantity}
             onAddToCart={() => handleAddToCart(coffee)}
           />
         ))}
