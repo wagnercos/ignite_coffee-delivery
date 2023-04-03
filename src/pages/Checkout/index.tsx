@@ -27,7 +27,7 @@ import {
 } from './styles'
 
 export function Checkout() {
-  const { coffees, removeFromCart } = useCoffee()
+  const { coffeesCart, removeFromCart } = useCoffee()
 
   function handleRemoveFromCart(id: number) {
     removeFromCart(id)
@@ -118,7 +118,7 @@ export function Checkout() {
         <RightSideContent>
           <h4>Cafés selecionados</h4>
           <OrderedCoffees>
-            {coffees.map((coffee) => (
+            {coffeesCart.map((coffee) => (
               <div key={coffee.id}>
                 <SmallCard
                   id={coffee.id}

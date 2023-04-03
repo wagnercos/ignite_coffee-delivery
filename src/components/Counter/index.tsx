@@ -8,7 +8,6 @@ export function Counter({ id, quantity }: CoffeeAddQuantityProps) {
 
   function handleIncrement(id: number) {
     increment(id)
-    console.log(id)
   }
 
   return (

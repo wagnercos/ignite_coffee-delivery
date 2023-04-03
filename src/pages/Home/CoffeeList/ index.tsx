@@ -7,9 +7,9 @@ import api from '../../../services/api'
 import { CoffeeListContainer, CoffeeContent } from './styles'
 
 export function CoffeeList() {
-  const { addToCart, coffees } = useCoffee()
+  const { addToCart, quantity } = useCoffee()
 
-  const [coffeesApi, setCoffeesApi] = useState<CoffeeAddQuantityProps[]>([])
+  const [coffees, setCoffees] = useState<CoffeeAddQuantityProps[]>([])
 
   useEffect(() => {
     async function loadCoffees() {
@@ -24,13 +24,11 @@ export function CoffeeList() {
           })
           .replace('BRL', '')
           .trim(),
-        quantity: 1,
       }))
-      console.log(data)
-      setCoffeesApi(data)
+      setCoffees(data)
     }
     loadCoffees()
-  }, [coffees])
+  }, [])
 
   function handleAddToCart(coffee: CoffeeAddQuantityProps) {
     addToCart(coffee)
@@ -40,7 +38,7 @@ export function CoffeeList() {
     <CoffeeListContainer>
       <h2>Nossos cafés</h2>
       <CoffeeContent>
-        {coffeesApi.map((coffee) => (
+        {coffees.map((coffee) => (
           <LargeCard
             key={coffee.id}
             id={coffee.id}
@@ -49,7 +47,7 @@ export function CoffeeList() {
             price={coffee.price}
             description={coffee.description}
             image={coffee.image}
-            quantity={coffee.quantity}
+            quantity={quantity}
             onAddToCart={() => handleAddToCart(coffee)}
           />
         ))}

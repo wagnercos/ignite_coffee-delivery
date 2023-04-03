@@ -15,7 +15,7 @@ import logo from '../../assets/logo.svg'
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const { coffees } = useCoffee()
+  const { coffeesCart } = useCoffee()
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
@@ -33,7 +33,7 @@ export function Header() {
     }
   }
 
-  const coffeesSelected = coffees.length
+  const coffeesSelected = coffeesCart.length
 
   return (
     <HeaderContainer isScrolled={isScrolled}>
