@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
+import api from '../services/api'
 
 interface ChildrenType {
   children: React.ReactNode
@@ -8,26 +9,25 @@ interface CoffeeType extends Array<string> {}
 
 export interface CoffeeProps {
   id: number
-  title?: string
+  title: string
   type?: CoffeeType
-  price?: number
+  price: number
   description?: string
-  image?: string
-}
-
-export interface CoffeeAddQuantityProps extends CoffeeProps {
-  quantity?: number
+  image: string
+  quantity: number
 }
 
 interface CoffeeContextType {
-  coffeesCart: CoffeeAddQuantityProps[]
-  addToCart: (coffee: CoffeeAddQuantityProps) => void
+  coffees: CoffeeProps[]
+  coffeesCart: CoffeeProps[]
+  addToCart: (coffee: CoffeeProps) => void
   removeFromCart: (id: number) => void
   increment: (id: number) => void
   decrement: (id: number) => void
 }
 
 const CoffeeContext = createContext<CoffeeContextType>({
+  coffees: [],
   coffeesCart: [],
   addToCart: () => {},
   removeFromCart: () => {},
@@ -36,44 +36,84 @@ const CoffeeContext = createContext<CoffeeContextType>({
 })
 
 export function CoffeeProvider({ children }: ChildrenType) {
-  const [coffeesCart, setCoffeesCart] = useState<CoffeeAddQuantityProps[]>([])
+  const [coffees, setCoffees] = useState<CoffeeProps[]>([])
+  const [coffeesCart, setCoffeesCart] = useState<CoffeeProps[]>([])
 
   useEffect(() => {
     async function loadCoffees(): Promise<void> {
-      const storagedProducts = localStorage.getItem('@CoffeeDelivery')
+      const storagedCoffees = localStorage.getItem('@CoffeeDelivery')
 
-      if (storagedProducts) {
-        setCoffeesCart([...JSON.parse(storagedProducts)])
+      if (storagedCoffees) {
+        setCoffeesCart([...JSON.parse(storagedCoffees)])
       }
     }
 
     loadCoffees()
   }, [])
 
-  function addToCart(coffee: CoffeeAddQuantityProps) {
+  useEffect(() => {
+    async function loadCoffees() {
+      const response = await api.get('/coffees')
+      const data = response.data.map((coffee: CoffeeProps) => ({
+        ...coffee,
+        price: coffee
+          .price!.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+            currencyDisplay: 'code',
+          })
+          .replace('BRL', '')
+          .trim(),
+        quantity: 1,
+      }))
+      setCoffees(data)
+    }
+    loadCoffees()
+  }, [])
+
+  function addToCart(coffee: CoffeeProps) {
     const coffeeExist = coffeesCart.find((c) => c.id === coffee.id)
     if (!coffeeExist) {
-      setCoffeesCart((state) => [...state, { ...coffee, quantity: 1 }])
-      localStorage.setItem('@CoffeeDelivery', JSON.stringify(coffee))
+      setCoffeesCart((state) => [...state, coffee])
+      return localStorage.setItem('@CoffeeDelivery', JSON.stringify(coffee))
     } else {
       setCoffeesCart((state) => [...state])
     }
   }
 
   function increment(id: number) {
-    const newCoffee = coffeesCart.map((c) =>
-      c.id === id ? { ...c, quantity: c.quantity! + 1 } : c,
-    )
-    setCoffeesCart(newCoffee)
-    localStorage.setItem('@CoffeeDelivery', JSON.stringify(newCoffee))
+    const coffeeIndex = coffees.findIndex((c) => c.id === id)
+    if (coffeeIndex === -1) {
+      console.error(`Coffee with ID ${id} not found`)
+      return
+    }
+    const updatedCoffee = {
+      ...coffees[coffeeIndex],
+      quantity: coffees[coffeeIndex].quantity + 1,
+    }
+    const newCoffee = [...coffees]
+    newCoffee[coffeeIndex] = updatedCoffee
+    setCoffees(newCoffee)
+    localStorage.setItem('@CoffeeDelivery', JSON.stringify(updatedCoffee))
   }
 
   function decrement(id: number) {
-    const newCoffee = coffeesCart.map((c) =>
-      c.id === id && c.quantity! > 1 ? { ...c, quantity: c.quantity! - 1 } : c,
-    )
-    setCoffeesCart(newCoffee)
-    localStorage.setItem('@CoffeeDelivery', JSON.stringify(newCoffee))
+    const coffeeIndex = coffees.findIndex((c) => c.id === id)
+    if (coffeeIndex === -1) {
+      console.error(`Coffee with ID ${id} not found`)
+      return
+    }
+    const updatedCoffee = {
+      ...coffees[coffeeIndex],
+      quantity:
+        coffees[coffeeIndex].quantity > 1
+          ? coffees[coffeeIndex].quantity - 1
+          : coffees[coffeeIndex].quantity,
+    }
+    const newCoffee = [...coffees]
+    newCoffee[coffeeIndex] = updatedCoffee
+    setCoffees(newCoffee)
+    localStorage.setItem('@CoffeeDelivery', JSON.stringify(updatedCoffee))
   }
 
   function removeFromCart(id: number) {
@@ -85,6 +125,7 @@ export function CoffeeProvider({ children }: ChildrenType) {
   return (
     <CoffeeContext.Provider
       value={{
+        coffees,
         coffeesCart,
         addToCart,
         removeFromCart,

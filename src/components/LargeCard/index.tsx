@@ -1,5 +1,5 @@
 import { Plus } from 'phosphor-react'
-import { CoffeeAddQuantityProps } from '../../hooks/useCoffee'
+import { CoffeeProps } from '../../hooks/useCoffee'
 import { Counter } from '../Counter'
 
 import {
@@ -12,7 +12,7 @@ import {
   ButtonAddToCart,
 } from './styles'
 
-interface LargeCardType extends CoffeeAddQuantityProps {
+interface LargeCardType extends CoffeeProps {
   onAddToCart: () => void
 }
 
@@ -47,7 +47,7 @@ export function LargeCard({
         </Price>
 
         <AmountSetting>
-          <Counter id={id} />
+          <Counter id={id} title={''} price={0} image={''} quantity={0} />
           <ButtonAddToCart type="button" onClick={onAddToCart}>
             <Plus size={18} weight="bold" />
           </ButtonAddToCart>

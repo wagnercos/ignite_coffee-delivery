@@ -1,36 +1,12 @@
-import { useEffect, useState } from 'react'
 import { LargeCard } from '../../../components/LargeCard'
-import { CoffeeAddQuantityProps, useCoffee } from '../../../hooks/useCoffee'
-
-import api from '../../../services/api'
+import { CoffeeProps, useCoffee } from '../../../hooks/useCoffee'
 
 import { CoffeeListContainer, CoffeeContent } from './styles'
 
 export function CoffeeList() {
-  const { addToCart } = useCoffee()
+  const { addToCart, coffees } = useCoffee()
 
-  const [coffees, setCoffees] = useState<CoffeeAddQuantityProps[]>([])
-
-  useEffect(() => {
-    async function loadCoffees() {
-      const response = await api.get('/coffees')
-      const data = response.data.map((coffee: CoffeeAddQuantityProps) => ({
-        ...coffee,
-        price: coffee
-          .price!.toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-            currencyDisplay: 'code',
-          })
-          .replace('BRL', '')
-          .trim(),
-      }))
-      setCoffees(data)
-    }
-    loadCoffees()
-  }, [])
-
-  function handleAddToCart(coffee: CoffeeAddQuantityProps) {
+  function handleAddToCart(coffee: CoffeeProps) {
     addToCart(coffee)
   }
 
@@ -48,6 +24,7 @@ export function CoffeeList() {
             description={coffee.description}
             image={coffee.image}
             onAddToCart={() => handleAddToCart(coffee)}
+            quantity={0}
           />
         ))}
       </CoffeeContent>

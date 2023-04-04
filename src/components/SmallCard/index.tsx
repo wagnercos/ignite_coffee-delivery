@@ -1,5 +1,5 @@
 import { Trash } from 'phosphor-react'
-import { CoffeeAddQuantityProps } from '../../hooks/useCoffee'
+import { CoffeeProps } from '../../hooks/useCoffee'
 import { Counter } from '../Counter'
 import {
   Actions,
@@ -9,7 +9,7 @@ import {
   SmallCardContainer,
 } from './styles'
 
-interface SmallCardType extends CoffeeAddQuantityProps {
+interface SmallCardType extends CoffeeProps {
   onRemoveFromCart: () => void
 }
 
@@ -27,7 +27,7 @@ export function SmallCard({
         <Details>
           <p>{title}</p>
           <Actions>
-            <Counter id={id} />
+            <Counter id={id} title={''} price={0} image={''} quantity={0} />
             <ButtonDelete type="button" onClick={onRemoveFromCart}>
               <Trash size={16} />
               <span>Remover</span>

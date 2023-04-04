@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react'
 import { Minus, Plus } from 'phosphor-react'
-import { CoffeeAddQuantityProps, useCoffee } from '../../hooks/useCoffee'
+import { CoffeeProps, useCoffee } from '../../hooks/useCoffee'
 
 import { ButtonDecrease, ButtonIncrease, CounterContainer } from './styles'
 
-export function Counter({ id }: CoffeeAddQuantityProps) {
-  const { increment, decrement, coffeesCart } = useCoffee()
+export function Counter({ id }: CoffeeProps) {
+  const { increment, decrement, coffees } = useCoffee()
 
   const [quantity, setQuantity] = useState<number | undefined>(1)
 
   useEffect(() => {
-    const getQuantity = coffeesCart.find((c) => c.id === id)
+    const getQuantity = coffees.find((c) => c.id === id)
     if (getQuantity) {
       setQuantity(getQuantity.quantity)
     }
-  }, [coffeesCart, id])
+  }, [coffees, id])
 
   function handleIncrement(id: number) {
     increment(id)

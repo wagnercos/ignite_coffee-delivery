@@ -126,6 +126,7 @@ export function Checkout() {
                   title={coffee.title}
                   price={coffee.price}
                   onRemoveFromCart={() => handleRemoveFromCart(coffee.id)}
+                  quantity={0}
                 />
                 <Separator />
               </div>
