@@ -1,5 +1,5 @@
 import { Trash } from 'phosphor-react'
-import { CoffeeProps } from '../../hooks/useCoffee'
+import { CoffeeProps, useCoffee } from '../../hooks/useCoffee'
 import { Counter } from '../Counter'
 import {
   Actions,
@@ -20,6 +20,15 @@ export function SmallCard({
   price,
   onRemoveFromCart,
 }: SmallCardType) {
+  const { increment, decrement } = useCoffee()
+
+  function handleIncrement(id: number) {
+    increment(id)
+  }
+
+  function handleDecrement(id: number) {
+    decrement(id)
+  }
   return (
     <SmallCardContainer>
       <CoffeeInfo>
@@ -27,7 +36,10 @@ export function SmallCard({
         <Details>
           <p>{title}</p>
           <Actions>
-            <Counter id={id} title={''} price={0} image={''} quantity={0} />
+            <Counter
+              onIncrement={() => handleIncrement(id)}
+              onDecrement={() => handleDecrement(id)}
+            />
             <ButtonDelete type="button" onClick={onRemoveFromCart}>
               <Trash size={16} />
               <span>Remover</span>

@@ -1,36 +1,23 @@
-import { useEffect, useState } from 'react'
 import { Minus, Plus } from 'phosphor-react'
-import { CoffeeProps, useCoffee } from '../../hooks/useCoffee'
+import { useCoffee } from '../../hooks/useCoffee'
 
 import { ButtonDecrease, ButtonIncrease, CounterContainer } from './styles'
 
-export function Counter({ id }: CoffeeProps) {
-  const { increment, decrement, coffees } = useCoffee()
+interface CounterTypes {
+  onIncrement: () => void
+  onDecrement: () => void
+}
 
-  const [quantity, setQuantity] = useState<number | undefined>(1)
-
-  useEffect(() => {
-    const getQuantity = coffees.find((c) => c.id === id)
-    if (getQuantity) {
-      setQuantity(getQuantity.quantity)
-    }
-  }, [coffees, id])
-
-  function handleIncrement(id: number) {
-    increment(id)
-  }
-
-  function handleDecrement(id: number) {
-    decrement(id)
-  }
+export function Counter({ onIncrement, onDecrement }: CounterTypes) {
+  const { coffeeQuantity } = useCoffee()
 
   return (
     <CounterContainer>
-      <ButtonDecrease type="button" onClick={() => handleDecrement(id)}>
+      <ButtonDecrease type="button" onClick={onDecrement}>
         <Minus size={14} weight="bold" />
       </ButtonDecrease>
-      <input type="number" placeholder={String(quantity)} />
-      <ButtonIncrease type="button" onClick={() => handleIncrement(id)}>
+      <input type="number" placeholder={String(coffeeQuantity)} />
+      <ButtonIncrease type="button" onClick={onIncrement}>
         <Plus size={14} weight="bold" />
       </ButtonIncrease>
     </CounterContainer>

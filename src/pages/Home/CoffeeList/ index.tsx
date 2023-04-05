@@ -6,28 +6,24 @@ import { CoffeeListContainer, CoffeeContent } from './styles'
 export function CoffeeList() {
   const { addToCart, coffees } = useCoffee()
 
-  function handleAddToCart(coffee: CoffeeProps) {
-    addToCart(coffee)
+  function handleAddToCart({ ...coffees }: CoffeeProps) {
+    addToCart({ ...coffees })
+  }
+
+  function renderCoffee(coffees: CoffeeProps) {
+    return (
+      <LargeCard
+        key={coffees.id}
+        {...coffees}
+        onAddToCart={() => handleAddToCart({ ...coffees })}
+      />
+    )
   }
 
   return (
     <CoffeeListContainer>
       <h2>Nossos cafés</h2>
-      <CoffeeContent>
-        {coffees.map((coffee) => (
-          <LargeCard
-            key={coffee.id}
-            id={coffee.id}
-            title={coffee.title}
-            type={coffee.type}
-            price={coffee.price}
-            description={coffee.description}
-            image={coffee.image}
-            onAddToCart={() => handleAddToCart(coffee)}
-            quantity={0}
-          />
-        ))}
-      </CoffeeContent>
+      <CoffeeContent>{coffees.map(renderCoffee)}</CoffeeContent>
     </CoffeeListContainer>
   )
 }

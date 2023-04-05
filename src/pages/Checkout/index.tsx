@@ -6,7 +6,7 @@ import {
   Money,
 } from 'phosphor-react'
 import { SmallCard } from '../../components/SmallCard'
-import { useCoffee } from '../../hooks/useCoffee'
+import { CoffeeProps, useCoffee } from '../../hooks/useCoffee'
 
 import {
   CheckoutContainer,
@@ -31,6 +31,18 @@ export function Checkout() {
 
   function handleRemoveFromCart(id: number) {
     removeFromCart(id)
+  }
+
+  function renderCoffee(coffees: CoffeeProps) {
+    return (
+      <div key={coffees.id}>
+        <SmallCard
+          {...coffees}
+          onRemoveFromCart={() => handleRemoveFromCart(coffees.id)}
+        />
+        <Separator />
+      </div>
+    )
   }
 
   return (
@@ -118,19 +130,7 @@ export function Checkout() {
         <RightSideContent>
           <h4>Cafés selecionados</h4>
           <OrderedCoffees>
-            {coffeesCart.map((coffee) => (
-              <div key={coffee.id}>
-                <SmallCard
-                  id={coffee.id}
-                  image={coffee.image}
-                  title={coffee.title}
-                  price={coffee.price}
-                  onRemoveFromCart={() => handleRemoveFromCart(coffee.id)}
-                  quantity={0}
-                />
-                <Separator />
-              </div>
-            ))}
+            {coffeesCart.map(renderCoffee)}
             <PaymentDetails>
               <ItensTotal>
                 <p>Total de itens</p>
