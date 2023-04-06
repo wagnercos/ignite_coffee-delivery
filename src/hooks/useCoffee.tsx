@@ -1,8 +1,14 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import api from '../services/api'
 
 interface ChildrenType {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 interface CoffeeType extends Array<string> {}
@@ -14,13 +20,12 @@ export interface CoffeeProps {
   price: number
   description?: string
   image: string
-  quantity?: number
+  quantity: number
 }
 
 export interface CoffeeContextType {
   coffees: CoffeeProps[]
   coffeesCart: CoffeeProps[]
-  coffeeQuantity: number
   addToCart: (coffee: CoffeeProps) => void
   removeFromCart: (id: number) => void
   increment: (id: number) => void
@@ -34,8 +39,6 @@ const CoffeeContext = createContext<CoffeeContextType>({} as CoffeeContextType)
 export function CoffeeProvider({ children }: ChildrenType) {
   const [coffees, setCoffees] = useState<CoffeeProps[]>([])
   const [coffeesCart, setCoffeesCart] = useState<CoffeeProps[]>([])
-  const [coffeeId, setCoffeeId] = useState(0)
-  const [coffeeQuantity, setCoffeeQuantity] = useState(0)
 
   useEffect(() => {
     async function loadCoffees(): Promise<void> {
@@ -69,18 +72,10 @@ export function CoffeeProvider({ children }: ChildrenType) {
     loadCoffees()
   }, [])
 
-  // useEffect(() => {
-  //   const getQuantity = coffees.find((c) => c.id === coffeeId)
-  //   if (getQuantity) {
-  //     setCoffeeQuantity(getQuantity.quantity!)
-  //   }
-  // }, [coffeeId, coffees])
-
   function addToCart(coffee: CoffeeProps) {
     const coffeeExist = coffeesCart.find((c) => c.id === coffee.id)
     if (!coffeeExist) {
       setCoffeesCart((state) => [...state, coffee])
-      // setCoffeeId(coffeeExist!.id)
       return localStorage.setItem('@CoffeeDelivery', JSON.stringify(coffee))
     } else {
       setCoffeesCart((state) => [...state])
@@ -139,7 +134,6 @@ export function CoffeeProvider({ children }: ChildrenType) {
         removeFromCart,
         increment,
         decrement,
-        coffeeQuantity,
       }}
     >
       {children}

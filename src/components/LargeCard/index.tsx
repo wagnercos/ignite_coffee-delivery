@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Plus } from 'phosphor-react'
 import { CoffeeProps, useCoffee } from '../../hooks/useCoffee'
 import { Counter } from '../Counter'
@@ -25,7 +26,14 @@ export function LargeCard({
   price,
   onAddToCart,
 }: LargeCardType) {
-  const { increment, decrement } = useCoffee()
+  const [quantity, setQuantity] = useState<number>(1)
+  const { increment, decrement, coffees } = useCoffee()
+
+  useEffect(() => {
+    const coffee = coffees.find((q) => q.id === id)
+    setQuantity(coffee!.quantity)
+    console.log(coffee)
+  }, [coffees, id, quantity])
 
   function handleIncrement(id: number) {
     increment(id)
@@ -60,6 +68,7 @@ export function LargeCard({
           <Counter
             onIncrement={() => handleIncrement(id)}
             onDecrement={() => handleDecrement(id)}
+            quantity={quantity}
           />
           <ButtonAddToCart type="button" onClick={onAddToCart}>
             <Plus size={18} weight="bold" />

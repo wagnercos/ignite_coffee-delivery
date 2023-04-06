@@ -1,4 +1,5 @@
 import { Trash } from 'phosphor-react'
+import { useEffect, useState } from 'react'
 import { CoffeeProps, useCoffee } from '../../hooks/useCoffee'
 import { Counter } from '../Counter'
 import {
@@ -20,7 +21,14 @@ export function SmallCard({
   price,
   onRemoveFromCart,
 }: SmallCardType) {
-  const { increment, decrement } = useCoffee()
+  const [quantity, setQuantity] = useState<number>(1)
+  const { increment, decrement, coffees } = useCoffee()
+
+  useEffect(() => {
+    const coffee = coffees.find((q) => q.id === id)
+    setQuantity(coffee!.quantity)
+    console.log(coffee)
+  }, [coffees, id, quantity])
 
   function handleIncrement(id: number) {
     increment(id)
@@ -39,6 +47,7 @@ export function SmallCard({
             <Counter
               onIncrement={() => handleIncrement(id)}
               onDecrement={() => handleDecrement(id)}
+              quantity={quantity}
             />
             <ButtonDelete type="button" onClick={onRemoveFromCart}>
               <Trash size={16} />
