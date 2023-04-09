@@ -9,7 +9,7 @@ export const CheckoutContainer = styled.main`
     display: grid;
     grid-template-columns: 60% 1fr;
     grid-gap: 2rem;
-    margin-top: 1rem;
+    margin: 1rem 0 2rem 0;
   }
 `
 

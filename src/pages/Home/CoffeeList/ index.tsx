@@ -1,21 +1,22 @@
 import { LargeCard } from '../../../components/LargeCard'
-import { CoffeeProps, useCoffee } from '../../../hooks/useCoffee'
+import { useCoffee } from '../../../hooks/useCoffee'
+import { CoffeeProps } from '../../../reducers/coffees/reducer'
 
 import { CoffeeListContainer, CoffeeContent } from './styles'
 
 export function CoffeeList() {
   const { addToCart, coffees } = useCoffee()
 
-  function handleAddToCart({ ...coffees }: CoffeeProps) {
-    addToCart({ ...coffees })
+  function handleAddToCart(coffee: CoffeeProps) {
+    addToCart(coffee)
   }
 
-  function renderCoffee(coffees: CoffeeProps) {
+  function renderCoffee(coffee: CoffeeProps) {
     return (
       <LargeCard
-        key={coffees.id}
-        {...coffees}
-        onAddToCart={() => handleAddToCart({ ...coffees })}
+        key={coffee.id}
+        {...coffee}
+        onAddToCart={() => handleAddToCart(coffee)}
       />
     )
   }

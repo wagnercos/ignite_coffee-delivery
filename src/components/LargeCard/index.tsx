@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Plus } from 'phosphor-react'
-import { CoffeeProps, useCoffee } from '../../hooks/useCoffee'
+import { useCoffee } from '../../hooks/useCoffee'
 import { Counter } from '../Counter'
 
 import {
@@ -12,6 +12,7 @@ import {
   AmountSetting,
   ButtonAddToCart,
 } from './styles'
+import { CoffeeProps } from '../../reducers/coffees/reducer'
 
 interface LargeCardType extends CoffeeProps {
   onAddToCart: () => void
@@ -32,7 +33,6 @@ export function LargeCard({
   useEffect(() => {
     const coffee = coffees.find((q) => q.id === id)
     setQuantity(coffee!.quantity)
-    console.log(coffee)
   }, [coffees, id, quantity])
 
   function handleIncrement(id: number) {
