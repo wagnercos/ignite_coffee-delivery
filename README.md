@@ -1,4 +1,4 @@
-<h1 align="center">Coffee Delivery</h1>
+<h1 align="center">Coffee Delivery :coffee:</h1>
 <h2 align="center">Desafio 02 do módulo Ignite :fire: - React JS @Rocketseat</h2>
 
 <br />
