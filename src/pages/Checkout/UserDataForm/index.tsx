@@ -16,15 +16,11 @@ interface MethodPaymentsType {
     id: string
     name: string
     icon: ReactNode
-    description: string
   }[]
 }
 
 export function UserDataForm({ methodPayments }: MethodPaymentsType) {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext()
+  const { register } = useFormContext()
 
   return (
     <UserDataFormContainer>
@@ -43,24 +39,25 @@ export function UserDataForm({ methodPayments }: MethodPaymentsType) {
               type="text"
               id="cep"
               placeholder="CEP"
-              {...register('cep', {
-                pattern: /^\d{0,8}$/i,
-                maxLength: 8,
-              })}
+              {...register('cep', { required: true })}
             />
-            {errors.cep && <span>CEP inválido (deve ter 8 caracteres)</span>}
           </div>
-          <input type="text" placeholder="Rua" {...register('rua')} />
+          <input
+            type="text"
+            placeholder="Rua"
+            {...register('rua', { required: true })}
+          />
 
           <div className="input-group-2">
             <input
               type="text"
               id="numero"
               placeholder="Número"
-              {...register('numero')}
+              {...register('numero', { maxLength: 4 })}
             />
             <input
               type="text"
+              id="complemento"
               placeholder="Complemento"
               {...register('complemento')}
             />
@@ -70,16 +67,19 @@ export function UserDataForm({ methodPayments }: MethodPaymentsType) {
             <input
               type="text"
               placeholder="Bairro"
-              required
-              {...register('bairro')}
+              {...register('bairro', { required: true })}
             />
             <input
               type="text"
               placeholder="Cidade"
-              required
-              {...register('cidade')}
+              {...register('cidade', { required: true })}
             />
-            <input type="text" placeholder="UF" required {...register('uf')} />
+            <input
+              type="text"
+              placeholder="UF"
+              required
+              {...register('uf', { required: true })}
+            />
           </div>
         </InputGroup>
       </AddressInfo>
@@ -102,10 +102,10 @@ export function UserDataForm({ methodPayments }: MethodPaymentsType) {
                   type="radio"
                   id={method.name}
                   value={method.id}
-                  {...register('pagamento')}
+                  {...register('pagamento', { required: true })}
                 />
                 {method.icon}
-                <span>{method.description}</span>
+                <span>{method.id}</span>
               </label>
             </Fragment>
           ))}

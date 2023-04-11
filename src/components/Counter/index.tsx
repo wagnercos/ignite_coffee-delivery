@@ -34,7 +34,7 @@ export function CounterDisabled({ quantity }: CounterTypes) {
       <ButtonDecrease type="button" disabled>
         <Minus size={14} weight="bold" />
       </ButtonDecrease>
-      <input type="number" placeholder={String(quantity)} readOnly />
+      <input type="number" placeholder={String(quantity)} disabled readOnly />
       <ButtonIncrease type="button" disabled>
         <Plus size={14} weight="bold" />
       </ButtonIncrease>

@@ -14,8 +14,20 @@ export interface CoffeeProps {
   quantity: number
 }
 
+export interface FormDataProps {
+  cep: string
+  rua: string
+  numero: string
+  complemento?: string
+  bairro: string
+  cidade: string
+  uf: string
+  pagamento: string
+}
+
 interface CoffeesState {
   coffeesCart: CoffeeProps[]
+  formData: FormDataProps
 }
 
 export function coffeesReducer(state: CoffeesState, action: any) {
@@ -99,6 +111,20 @@ export function coffeesReducer(state: CoffeesState, action: any) {
         draft.coffeesCart = filteredCoffee
       })
     }
+
+    case ActionTypes.CLEAR_CART:
+      return produce(state, (draft) => {
+        draft.coffeesCart.length = 0
+      })
+
+    case ActionTypes.CREATE_FORM_DATA:
+      return produce(state, (draft) => {
+        draft.formData = action.payload.data
+        localStorage.setItem(
+          '@Coffee_Delivery:form-data',
+          JSON.stringify(action.payload.data),
+        )
+      })
 
     default:
       return state

@@ -22,7 +22,7 @@ export const CounterContainer = styled.div`
     }
 
     &:disabled::placeholder {
-      color: ${(props) => props.theme['base-label']} !important;
+      color: ${(props) => props.theme['base-label']};
     }
   }
 `

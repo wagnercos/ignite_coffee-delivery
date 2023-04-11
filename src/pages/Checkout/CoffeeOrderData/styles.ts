@@ -4,6 +4,10 @@ export const CoffeeOrderDataContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `
 
 export const OrderedCoffees = styled.div`

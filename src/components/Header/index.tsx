@@ -12,10 +12,23 @@ import {
 } from './styles'
 
 import logo from '../../assets/logo.svg'
+import { FormDataProps } from '../../reducers/coffees/reducer'
 
 export function Header() {
+  const [city, setCity] = useState<FormDataProps>()
   const [isScrolled, setIsScrolled] = useState(false)
+
   const { coffeesCart } = useCoffee()
+
+  useEffect(() => {
+    async function loadCity(): Promise<void> {
+      const getStorage = localStorage.getItem('@Coffee_Delivery:form-data')
+      if (getStorage) {
+        setCity({ ...JSON.parse(getStorage) })
+      }
+    }
+    loadCity()
+  }, [])
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
@@ -26,7 +39,7 @@ export function Header() {
   }, [])
 
   function handleScroll() {
-    if (window.scrollY > 100) {
+    if (window.scrollY > 50) {
       setIsScrolled(true)
     } else {
       setIsScrolled(false)
@@ -44,10 +57,12 @@ export function Header() {
         <NavGroup>
           <Locale>
             <MapPin size={22} weight="fill" />
-            <p>Porto Alegre</p>
+            <p>{city?.cidade}</p>
           </Locale>
           <Wrapper>
-            <AmountMarker>{coffeesSelected}</AmountMarker>
+            {coffeesCart.length > 0 && (
+              <AmountMarker>{coffeesSelected}</AmountMarker>
+            )}
             <NavLink to="/checkout" title="Sacola de compras">
               <ShoppingCart size={22} weight="fill" />
             </NavLink>

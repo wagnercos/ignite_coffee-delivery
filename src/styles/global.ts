@@ -47,4 +47,14 @@ h3 {
     font-size: 1.25rem;
     font-weight: 700;
 }
+
+@media (max-width: 768px) {
+    html {
+        font-size: 87.5%;
+    }
+
+    h1 {
+    font-size: 2.5rem;
+    }
+}
 `

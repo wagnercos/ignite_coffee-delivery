@@ -5,18 +5,39 @@ export const SuccessContainer = styled.main`
   width: 100%;
   height: 100%;
   margin-top: 5rem;
+
+  @media (max-width: 768px) {
+    margin-top: 3rem;
+    padding: 0 1rem;
+  }
 `
 export const SuccessContentGrided = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 2rem;
   align-items: end;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+
+    & img {
+      width: 25rem;
+      height: auto;
+    }
+  }
 `
 
 export const LeftContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
+
+  @media (max-width: 768px) {
+    order: 2;
+  }
 `
 
 export const TextHeader = styled.div`

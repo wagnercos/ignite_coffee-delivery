@@ -21,6 +21,10 @@ export const HeaderContainer = styled.header<HeaderProps>`
   top: 0;
   left: 0;
   z-index: 100;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 1rem;
+  }
 `
 export const Nav = styled.nav`
   max-width: 70rem;

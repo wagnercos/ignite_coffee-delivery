@@ -11,4 +11,14 @@ export const CheckoutContainer = styled.main`
     grid-gap: 2rem;
     margin: 1rem 0 2rem 0;
   }
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+
+    & form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 `

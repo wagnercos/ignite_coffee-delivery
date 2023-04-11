@@ -10,6 +10,11 @@ export const IntroContainer = styled.div`
   height: 34rem;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+    margin-top: 4rem;
+  }
 `
 
 export const HeroBanner = styled.div`
@@ -25,6 +30,15 @@ export const HeroBanner = styled.div`
     justify-self: end;
     width: 27rem;
     height: auto;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
   }
 `
 
@@ -38,6 +52,7 @@ export const TextSide = styled.div`
     color: ${(props) => props.theme['base-subtitle']};
     line-height: 1.3;
     margin-top: 1rem;
+    width: 90%;
   }
 
   & ul {
@@ -51,6 +66,11 @@ export const TextSide = styled.div`
       display: flex;
       align-items: center;
       gap: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
     }
   }
 `

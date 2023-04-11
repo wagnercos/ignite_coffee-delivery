@@ -1,3 +1,4 @@
+import { useCoffee } from '../../hooks/useCoffee'
 import { useNavigate } from 'react-router-dom'
 import { Bank, CreditCard, Money } from 'phosphor-react'
 import { motion } from 'framer-motion'
@@ -12,36 +13,36 @@ import { CheckoutContainer } from './styles'
 
 const methodPayments = [
   {
-    id: 'CREDIT',
+    id: 'Cartão de crédito',
     name: 'cartao-credito',
     icon: <CreditCard size={16} />,
-    description: 'Cartão de crédito',
   },
   {
-    id: 'DEBIT',
+    id: 'Cartão de débito',
     name: 'cartao-debito',
     icon: <Bank size={16} />,
-    description: 'Cartão de crédito',
   },
   {
-    id: 'CASH',
+    id: 'Dinheiro',
     name: 'dinheiro',
     icon: <Money size={16} />,
-    description: 'Cartão de crédito',
   },
 ]
 
 const newFormValidationShema = z.object({
-  cep: z.string().regex(/^\d{5}-\d{3}$/),
+  cep: z
+    .string()
+    .regex(/^\d{5}-\d{3}$/)
+    .length(9),
   rua: z.string().min(2).max(100),
   numero: z
     .string()
     .regex(/^\d+[A-Za-z]?$/)
     .max(4),
-  complemento: z.string().min(2).max(100).optional(),
+  complemento: z.string().max(50).optional(),
   bairro: z.string().min(2).max(20),
   cidade: z.string().min(2).max(20),
-  uf: z.string().max(2),
+  uf: z.string().length(2),
   pagamento: z
     .string()
     .refine((val) => methodPayments.map((method) => method.id).includes(val)),
@@ -50,6 +51,8 @@ const newFormValidationShema = z.object({
 type NewFormDataType = z.infer<typeof newFormValidationShema>
 
 export function Checkout() {
+  const { clearCart, createFormData, coffeesCart } = useCoffee()
+
   const newForm = useForm<NewFormDataType>({
     resolver: zodResolver(newFormValidationShema),
     defaultValues: {
@@ -64,13 +67,16 @@ export function Checkout() {
     },
   })
 
-  const { handleSubmit } = newForm
+  const { handleSubmit, watch } = newForm
 
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<NewFormDataType> = (data) => {
-    navigate('/success')
-    console.log(data)
+    if (coffeesCart.length > 0) {
+      createFormData(data)
+      navigate('/success')
+      clearCart()
+    }
   }
 
   return (

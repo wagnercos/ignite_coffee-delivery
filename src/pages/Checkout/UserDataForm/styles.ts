@@ -64,12 +64,20 @@ export const InputGroup = styled.div`
     display: grid;
     grid-template-columns: 2fr 2fr 0.5fr;
     grid-gap: 0.75rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 2fr 2fr 1fr;
+    }
   }
 
   & .input-group-2 {
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-gap: 0.75rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 2fr 4fr;
+    }
   }
 `
 
@@ -125,5 +133,10 @@ export const RadioGroup = styled.div`
       border: 1px solid ${(props) => props.theme.purple};
       border-radius: 6px;
     }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
   }
 `

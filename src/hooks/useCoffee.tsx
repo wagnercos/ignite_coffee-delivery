@@ -11,8 +11,14 @@ import {
   incrementAction,
   decrementAction,
   removeFromCartAction,
+  clearCartAction,
+  createFormDataAction,
 } from '../reducers/coffees/actions'
-import { CoffeeProps, coffeesReducer } from '../reducers/coffees/reducer'
+import {
+  CoffeeProps,
+  coffeesReducer,
+  FormDataProps,
+} from '../reducers/coffees/reducer'
 
 interface ChildrenType {
   children: ReactNode
@@ -20,10 +26,13 @@ interface ChildrenType {
 
 interface CoffeeContextType {
   coffeesCart: CoffeeProps[]
+  formData: FormDataProps
   addToCart: (coffee: CoffeeProps) => void
   removeFromCart: (id: number) => void
   increment: (id: number) => void
   decrement: (id: number) => void
+  clearCart: () => void
+  createFormData: (data: FormDataProps) => void
 }
 
 const CoffeeContext = createContext<CoffeeContextType>({} as CoffeeContextType)
@@ -33,9 +42,19 @@ const CoffeeContext = createContext<CoffeeContextType>({} as CoffeeContextType)
 export function CoffeeProvider({ children }: ChildrenType) {
   const [coffeesState, dispatch] = useReducer(coffeesReducer, {
     coffeesCart: [],
+    formData: {
+      cep: '',
+      rua: '',
+      numero: '',
+      complemento: '',
+      bairro: '',
+      cidade: '',
+      uf: '',
+      pagamento: '',
+    },
   })
 
-  const { coffeesCart } = coffeesState
+  const { coffeesCart, formData } = coffeesState
 
   useEffect(() => {
     async function loadCoffees(): Promise<void> {
@@ -68,6 +87,14 @@ export function CoffeeProvider({ children }: ChildrenType) {
     dispatch(removeFromCartAction(id))
   }
 
+  function clearCart() {
+    dispatch(clearCartAction())
+  }
+
+  function createFormData(data: FormDataProps) {
+    dispatch(createFormDataAction(data))
+  }
+
   //* ************************************************************************************************
 
   return (
@@ -78,6 +105,9 @@ export function CoffeeProvider({ children }: ChildrenType) {
         removeFromCart,
         increment,
         decrement,
+        clearCart,
+        createFormData,
+        formData,
       }}
     >
       {children}

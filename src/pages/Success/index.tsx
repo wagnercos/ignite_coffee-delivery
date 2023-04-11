@@ -11,8 +11,11 @@ import {
 } from './styles'
 
 import illustration from '../../assets/illustration.svg'
+import { useCoffee } from '../../hooks/useCoffee'
 
 export function Success() {
+  const { formData } = useCoffee()
+
   return (
     <SuccessContainer>
       <motion.div
@@ -33,9 +36,12 @@ export function Success() {
                   <MapPin size={16} weight="fill" />
                 </IconStyled>
                 <p>
-                  Entrega em <strong>Rua João Daniel Martinelli, 102</strong>{' '}
+                  Entrega em{' '}
+                  <strong>
+                    {formData.rua}, {formData.numero}
+                  </strong>{' '}
                   <br />
-                  Farrapos - Porto Alegre, RS
+                  {formData.bairro} - {formData.cidade}, {formData.uf}
                 </p>
               </li>
               <li>
@@ -54,7 +60,7 @@ export function Success() {
                 </IconStyled>
                 <p>
                   Pagamento na entrega <br />
-                  <strong>Cartão de Crédito </strong>
+                  <strong>{formData.pagamento}</strong>
                 </p>
               </li>
             </ListContentStyled>
