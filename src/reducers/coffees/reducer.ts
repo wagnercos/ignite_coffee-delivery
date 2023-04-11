@@ -15,29 +15,11 @@ export interface CoffeeProps {
 }
 
 interface CoffeesState {
-  coffees: CoffeeProps[]
   coffeesCart: CoffeeProps[]
 }
 
 export function coffeesReducer(state: CoffeesState, action: any) {
   switch (action.type) {
-    case ActionTypes.GET_API: {
-      return produce(state, (draft) => {
-        draft.coffees = action.payload.map((coffee: CoffeeProps) => ({
-          ...coffee,
-          price: coffee
-            .price!.toLocaleString('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-              currencyDisplay: 'code',
-            })
-            .replace('BRL', '')
-            .trim(),
-          quantity: 1,
-        }))
-      })
-    }
-
     case ActionTypes.GET_LOCALSTORAGE: {
       const getLocalStorage = [...JSON.parse(action.payload)]
       if (state.coffeesCart.length === 0) {
@@ -61,45 +43,49 @@ export function coffeesReducer(state: CoffeesState, action: any) {
     }
 
     case ActionTypes.INCREMENT: {
-      const coffeeIndex = state.coffees.findIndex(
-        (c: CoffeeProps) => c.id === action.payload.id,
+      const coffeeIndex = state.coffeesCart.findIndex(
+        (c) => c.id === action.payload.id,
       )
       if (coffeeIndex === -1) {
-        console.error(`Coffee with ID ${action.payload.id} not found`)
+        console.log(`Couldn't find ID ${coffeeIndex}`)
         return state
       }
+
       const updatedCoffee = {
-        ...state.coffees[coffeeIndex],
-        quantity: state.coffees[coffeeIndex].quantity! + 1,
+        ...state.coffeesCart[coffeeIndex],
+        quantity: state.coffeesCart[coffeeIndex].quantity + 1,
       }
 
       return produce(state, (draft) => {
-        draft.coffees.splice(coffeeIndex, 1, updatedCoffee)
-        if (state.coffeesCart) {
-          draft.coffeesCart.splice(coffeeIndex, 1, updatedCoffee)
-        }
+        draft.coffeesCart[coffeeIndex] = updatedCoffee
+        localStorage.setItem(
+          '@Coffee_Delivery:cart',
+          JSON.stringify([...state.coffeesCart, updatedCoffee]),
+        )
       })
     }
 
     case ActionTypes.DECREMENT: {
-      const coffeeIndex = state.coffees.findIndex(
-        (c: CoffeeProps) => c.id === action.payload.id,
+      const coffeeIndex = state.coffeesCart.findIndex(
+        (c) => c.id === action.payload.id,
       )
       if (coffeeIndex === -1) {
-        console.error(`Coffee with ID ${action.payload.id} not found`)
+        console.log(`Couldn't find ID ${coffeeIndex}`)
         return state
       }
+
       const updatedCoffee = {
-        ...state.coffees[coffeeIndex],
-        quantity: state.coffees[coffeeIndex].quantity! - 1,
+        ...state.coffeesCart[coffeeIndex],
+        quantity: state.coffeesCart[coffeeIndex].quantity - 1,
       }
 
       if (updatedCoffee.quantity >= 1) {
         return produce(state, (draft) => {
-          draft.coffees.splice(coffeeIndex, 1, updatedCoffee)
-          if (state.coffeesCart) {
-            draft.coffeesCart.splice(coffeeIndex, 1, updatedCoffee)
-          }
+          draft.coffeesCart[coffeeIndex] = updatedCoffee
+          localStorage.setItem(
+            '@Coffee_Delivery:cart',
+            JSON.stringify([...state.coffeesCart, updatedCoffee]),
+          )
         })
       }
       return state

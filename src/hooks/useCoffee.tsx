@@ -7,22 +7,18 @@ import {
 } from 'react'
 import {
   addToCartAction,
-  decrementAction,
-  getApiAction,
   getLocalStorage,
   incrementAction,
+  decrementAction,
   removeFromCartAction,
 } from '../reducers/coffees/actions'
 import { CoffeeProps, coffeesReducer } from '../reducers/coffees/reducer'
-
-import api from '../services/api'
 
 interface ChildrenType {
   children: ReactNode
 }
 
 interface CoffeeContextType {
-  coffees: CoffeeProps[]
   coffeesCart: CoffeeProps[]
   addToCart: (coffee: CoffeeProps) => void
   removeFromCart: (id: number) => void
@@ -36,15 +32,14 @@ const CoffeeContext = createContext<CoffeeContextType>({} as CoffeeContextType)
 
 export function CoffeeProvider({ children }: ChildrenType) {
   const [coffeesState, dispatch] = useReducer(coffeesReducer, {
-    coffees: [],
     coffeesCart: [],
   })
 
-  const { coffees, coffeesCart } = coffeesState
+  const { coffeesCart } = coffeesState
 
   useEffect(() => {
     async function loadCoffees(): Promise<void> {
-      const storedStateJSON = localStorage.getItem('@Coffee_Delivery:in-cart')
+      const storedStateJSON = localStorage.getItem('@Coffee_Delivery:cart')
       if (storedStateJSON) {
         dispatch(getLocalStorage(storedStateJSON))
       }
@@ -53,21 +48,9 @@ export function CoffeeProvider({ children }: ChildrenType) {
   }, [])
 
   useEffect(() => {
-    const stateJSON = JSON.stringify(coffeesState.coffeesCart)
-    localStorage.setItem('@Coffee_Delivery:in-cart', stateJSON)
-  }, [coffeesState.coffeesCart])
-
-  useEffect(() => {
-    async function loadCoffees() {
-      try {
-        const response = await api.get('/coffees')
-        dispatch(getApiAction(response))
-      } catch (e) {
-        console.log(e)
-      }
-    }
-    loadCoffees()
-  }, [dispatch])
+    const stateJSON = JSON.stringify(coffeesCart)
+    localStorage.setItem('@Coffee_Delivery:cart', stateJSON)
+  }, [coffeesCart])
 
   function addToCart(coffee: CoffeeProps) {
     dispatch(addToCartAction(coffee))
@@ -90,7 +73,6 @@ export function CoffeeProvider({ children }: ChildrenType) {
   return (
     <CoffeeContext.Provider
       value={{
-        coffees,
         coffeesCart,
         addToCart,
         removeFromCart,

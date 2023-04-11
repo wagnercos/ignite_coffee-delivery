@@ -1,11 +1,35 @@
+import { useEffect, useState } from 'react'
 import { LargeCard } from '../../../components/LargeCard'
 import { useCoffee } from '../../../hooks/useCoffee'
 import { CoffeeProps } from '../../../reducers/coffees/reducer'
+import api from '../../../services/api'
 
 import { CoffeeListContainer, CoffeeContent } from './styles'
 
 export function CoffeeList() {
-  const { addToCart, coffees } = useCoffee()
+  const [coffees, setCoffees] = useState<CoffeeProps[]>([])
+  const { addToCart } = useCoffee()
+
+  useEffect(() => {
+    async function loadCoffees() {
+      try {
+        const response = await api.get('/coffees')
+        const data = response.data.map((coffee: CoffeeProps) => ({
+          ...coffee,
+          quantity: 1,
+        }))
+        setCoffees(data)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    loadCoffees()
+  }, [])
+
+  useEffect(() => {
+    const stateJSON = JSON.stringify(coffees)
+    localStorage.setItem('@Coffee_Delivery:coffees', stateJSON)
+  }, [coffees])
 
   function handleAddToCart(coffee: CoffeeProps) {
     addToCart(coffee)
@@ -15,7 +39,7 @@ export function CoffeeList() {
     return (
       <LargeCard
         key={coffee.id}
-        {...coffee}
+        coffee={coffee}
         onAddToCart={() => handleAddToCart(coffee)}
       />
     )

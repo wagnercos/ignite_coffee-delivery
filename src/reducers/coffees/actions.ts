@@ -1,20 +1,11 @@
-import { AxiosResponse } from 'axios'
 import { CoffeeProps } from './reducer'
 
 export enum ActionTypes {
-  GET_API = 'GET_API',
   GET_LOCALSTORAGE = 'GET_LOCALSTORAGE',
   ADD_TO_CART = 'ADD_TO_CART',
   INCREMENT = 'INCREMENT',
   DECREMENT = 'DECREMENT',
   REMOVE_FROM_CART = 'REMOVE_FROM_CART',
-}
-
-export function getApiAction(response: AxiosResponse) {
-  return {
-    type: ActionTypes.GET_API,
-    payload: response.data,
-  }
 }
 
 export function getLocalStorage(storedStateJSON: string) {
@@ -44,6 +35,13 @@ export function decrementAction(id: number) {
     payload: { id },
   }
 }
+
+// export function updateQuantity(id: number) {
+//   return {
+//     type: ActionTypes.INCREMENT | ActionTypes.DECREMENT,
+//     payload: { id },
+//   }
+// }
 
 export function removeFromCartAction(id: number) {
   return {

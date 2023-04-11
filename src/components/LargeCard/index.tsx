@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
-import { Plus } from 'phosphor-react'
+import { Check, Plus } from 'phosphor-react'
 import { useCoffee } from '../../hooks/useCoffee'
-import { Counter } from '../Counter'
+import { Counter, CounterDisabled } from '../Counter'
+import { CoffeeProps } from '../../reducers/coffees/reducer'
+import { formatPrice } from '../../utils/formatPrice'
 
 import {
   LargeCardContainer,
@@ -12,28 +13,14 @@ import {
   AmountSetting,
   ButtonAddToCart,
 } from './styles'
-import { CoffeeProps } from '../../reducers/coffees/reducer'
 
-interface LargeCardType extends CoffeeProps {
+interface LargeCardType {
+  coffee: CoffeeProps
   onAddToCart: () => void
 }
 
-export function LargeCard({
-  id,
-  title,
-  type,
-  description,
-  image,
-  price,
-  onAddToCart,
-}: LargeCardType) {
-  const [quantity, setQuantity] = useState<number>(1)
-  const { increment, decrement, coffees } = useCoffee()
-
-  useEffect(() => {
-    const coffee = coffees.find((q) => q.id === id)
-    setQuantity(coffee!.quantity)
-  }, [coffees, id, quantity])
+export function LargeCard({ coffee, onAddToCart }: LargeCardType) {
+  const { increment, decrement, coffeesCart } = useCoffee()
 
   function handleIncrement(id: number) {
     increment(id)
@@ -43,35 +30,45 @@ export function LargeCard({
     decrement(id)
   }
 
+  const isCoffeeAlreadyAddToCart = coffeesCart.find((c) => c.id === coffee.id)
+
   return (
     <LargeCardContainer>
-      <img src={image} alt="" />
+      <img src={coffee.image} alt="" />
 
       <TagList>
-        {type?.map((t, index) => (
+        {coffee.type?.map((t, index) => (
           <li key={index}>{t}</li>
         ))}
       </TagList>
 
       <HeaderCard>
-        <h3>{title}</h3>
-        <p>{description}</p>
+        <h3>{coffee.title}</h3>
+        <p>{coffee.description}</p>
       </HeaderCard>
 
       <FooterCard>
         <Price>
           <span>R$</span>
-          <strong>{price}</strong>
+          <strong>{formatPrice(coffee.price)}</strong>
         </Price>
 
         <AmountSetting>
-          <Counter
-            onIncrement={() => handleIncrement(id)}
-            onDecrement={() => handleDecrement(id)}
-            quantity={quantity}
-          />
+          {isCoffeeAlreadyAddToCart?.id ? (
+            <Counter
+              onIncrement={() => handleIncrement(coffee.id)}
+              onDecrement={() => handleDecrement(coffee.id)}
+              quantity={isCoffeeAlreadyAddToCart.quantity}
+            />
+          ) : (
+            <CounterDisabled quantity={1} />
+          )}
           <ButtonAddToCart type="button" onClick={onAddToCart}>
-            <Plus size={18} weight="bold" />
+            {isCoffeeAlreadyAddToCart?.id ? (
+              <Check size={18} weight="bold" />
+            ) : (
+              <Plus size={18} weight="bold" />
+            )}
           </ButtonAddToCart>
         </AmountSetting>
       </FooterCard>

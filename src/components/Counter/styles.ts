@@ -9,6 +9,7 @@ export const CounterContainer = styled.div`
     border: 0;
     background-color: ${(props) => props.theme['base-button']};
     text-align: center;
+    pointer-events: none;
 
     &::placeholder {
       color: ${(props) => props.theme['base-title']};
@@ -18,6 +19,10 @@ export const CounterContainer = styled.div`
     &::-webkit-outer-spin-button {
       -webkit-appearance: none;
       margin: 0;
+    }
+
+    &:disabled::placeholder {
+      color: ${(props) => props.theme['base-label']} !important;
     }
   }
 `
@@ -32,6 +37,11 @@ export const BaseButtonInput = styled.button`
 
   &:hover {
     color: ${(props) => props.theme['purple-dark']};
+  }
+
+  &:disabled {
+    color: ${(props) => props.theme['base-label']};
+    cursor: default;
   }
 `
 
