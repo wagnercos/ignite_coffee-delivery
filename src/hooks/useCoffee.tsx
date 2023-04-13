@@ -35,7 +35,7 @@ interface CoffeeContextType {
   createFormData: (data: FormDataProps) => void
 }
 
-const CoffeeContext = createContext<CoffeeContextType>({} as CoffeeContextType)
+const CoffeeContext = createContext({} as CoffeeContextType)
 
 //* ************************************************************************************************
 
