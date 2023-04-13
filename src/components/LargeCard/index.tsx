@@ -1,36 +1,38 @@
-import { Check, Plus } from 'phosphor-react'
-import { useCoffee } from '../../hooks/useCoffee'
-import { Counter, CounterDisabled } from '../Counter'
-import { CoffeeProps } from '../../reducers/coffees/reducer'
-import { formatPrice } from '../../utils/formatPrice'
+import { useContext } from "react";
+import { Check, Plus } from "phosphor-react";
+
+import { Counter, CounterDisabled } from "../Counter";
+import { CoffeeProps } from "../../reducers/reducer";
+import { formatPrice } from "../../utils/formatPrice";
+import { CoffeeContext } from "../../context/CoffeeContext";
 
 import {
-  LargeCardContainer,
   TagList,
+  LargeCardContainer,
   HeaderCard,
   FooterCard,
   Price,
   AmountSetting,
   ButtonAddToCart,
-} from './styles'
+} from "./styles";
 
 interface LargeCardType {
-  coffee: CoffeeProps
-  onAddToCart: () => void
+  coffee: CoffeeProps;
+  onAddToCart: () => void;
 }
 
 export function LargeCard({ coffee, onAddToCart }: LargeCardType) {
-  const { increment, decrement, coffeesCart } = useCoffee()
+  const { increment, decrement, coffeesCart } = useContext(CoffeeContext);
 
   function handleIncrement(id: number) {
-    increment(id)
+    increment(id);
   }
 
   function handleDecrement(id: number) {
-    decrement(id)
+    decrement(id);
   }
 
-  const isCoffeeAlreadyAddToCart = coffeesCart.find((c) => c.id === coffee.id)
+  const isCoffeeAlreadyAddToCart = coffeesCart.find((c) => c.id === coffee.id);
 
   return (
     <LargeCardContainer>
@@ -73,5 +75,5 @@ export function LargeCard({ coffee, onAddToCart }: LargeCardType) {
         </AmountSetting>
       </FooterCard>
     </LargeCardContainer>
-  )
+  );
 }

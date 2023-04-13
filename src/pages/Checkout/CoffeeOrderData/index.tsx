@@ -1,7 +1,9 @@
-import { SmallCard } from '../../../components/SmallCard'
-import { useCoffee } from '../../../hooks/useCoffee'
-import { CoffeeProps } from '../../../reducers/coffees/reducer'
-import { formatPrice } from '../../../utils/formatPrice'
+import { useContext } from "react";
+
+import { SmallCard } from "../../../components/SmallCard";
+import { CoffeeContext } from "../../../context/CoffeeContext";
+import { CoffeeProps } from "../../../reducers/reducer";
+import { formatPrice } from "../../../utils/formatPrice";
 
 import {
   ButtonConfirmation,
@@ -12,21 +14,21 @@ import {
   PaymentDetails,
   Separator,
   Total,
-} from './styles'
+} from "./styles";
 
 export function CoffeeOrderData() {
-  const { coffeesCart, removeFromCart } = useCoffee()
+  const { coffeesCart, removeFromCart } = useContext(CoffeeContext);
 
   const cartSubTotal = coffeesCart.reduce((accumulator, coffee) => {
-    const coffeeTotal = coffee.price * coffee.quantity
+    const coffeeTotal = coffee.price * coffee.quantity;
 
-    return accumulator + coffeeTotal
-  }, 0)
+    return accumulator + coffeeTotal;
+  }, 0);
 
-  const deliveryFee = 3.5
+  const deliveryFee = 3.5;
 
   function handleRemoveFromCart(id: number) {
-    removeFromCart(id)
+    removeFromCart(id);
   }
 
   function renderCoffee(coffee: CoffeeProps) {
@@ -38,7 +40,7 @@ export function CoffeeOrderData() {
         />
         <Separator />
       </div>
-    )
+    );
   }
   return (
     <CoffeeOrderDataContainer>
@@ -66,5 +68,5 @@ export function CoffeeOrderData() {
         <ButtonConfirmation type="submit">Confirmar pedido</ButtonConfirmation>
       </OrderedCoffees>
     </CoffeeOrderDataContainer>
-  )
+  );
 }

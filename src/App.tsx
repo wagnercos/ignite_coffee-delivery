@@ -1,11 +1,11 @@
-import { BrowserRouter } from 'react-router-dom'
-import { ThemeProvider } from 'styled-components'
-import { CoffeeProvider } from './hooks/useCoffee'
+import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import { CoffeeProvider } from "./context/CoffeeContext";
 
-import { Router } from './Router'
+import { Router } from "./Router";
 
-import { GlobalStyle } from './styles/global'
-import { defaultTheme } from './styles/themes/default'
+import { GlobalStyle } from "./styles/global";
+import { defaultTheme } from "./styles/themes/default";
 
 export function App() {
   return (
@@ -17,5 +17,5 @@ export function App() {
         </CoffeeProvider>
       </BrowserRouter>
     </ThemeProvider>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const SuccessContainer = styled.main`
   max-width: 70rem;
@@ -10,7 +10,7 @@ export const SuccessContainer = styled.main`
     margin-top: 3rem;
     padding: 0 1rem;
   }
-`
+`;
 export const SuccessContentGrided = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -28,7 +28,7 @@ export const SuccessContentGrided = styled.div`
       height: auto;
     }
   }
-`
+`;
 
 export const LeftContent = styled.div`
   display: flex;
@@ -38,20 +38,20 @@ export const LeftContent = styled.div`
   @media (max-width: 768px) {
     order: 2;
   }
-`
+`;
 
 export const TextHeader = styled.div`
   & h2 {
-    color: ${(props) => props.theme['yellow-dark']};
+    color: ${(props) => props.theme["yellow-dark"]};
     margin-bottom: 0.25rem;
   }
 
   & > p {
     font-size: 1.25rem;
-    color: ${(props) => props.theme['base-subtitle']};
+    color: ${(props) => props.theme["base-subtitle"]};
     line-height: 1.3;
   }
-`
+`;
 
 export const ListContentStyled = styled.ul`
   list-style: none;
@@ -78,17 +78,17 @@ export const ListContentStyled = styled.ul`
       line-height: 1.3;
     }
   }
-`
+`;
 
 const ICONS_COLORS = {
-  yellow: 'yellow',
-  yellowDark: 'yellow-dark',
-  baseText: 'base-text',
-  purple: 'purple',
-} as const
+  yellow: "yellow",
+  yellowDark: "yellow-dark",
+  baseText: "base-text",
+  purple: "purple",
+} as const;
 
 interface IconsProps {
-  iconColor: keyof typeof ICONS_COLORS
+  iconColor: keyof typeof ICONS_COLORS;
 }
 
 export const IconStyled = styled.div<IconsProps>`
@@ -100,4 +100,4 @@ export const IconStyled = styled.div<IconsProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;

@@ -1,18 +1,21 @@
-import { Trash } from 'phosphor-react'
-import { useCoffee } from '../../hooks/useCoffee'
-import { CoffeeProps } from '../../reducers/coffees/reducer'
-import { formatPrice } from '../../utils/formatPrice'
-import { Counter } from '../Counter'
+import { useContext } from "react";
+import { Trash } from "phosphor-react";
+
+import { CoffeeContext } from "../../context/CoffeeContext";
+import { CoffeeProps } from "../../reducers/reducer";
+import { formatPrice } from "../../utils/formatPrice";
+import { Counter } from "../Counter";
+
 import {
   Actions,
   ButtonDelete,
   CoffeeInfo,
   Details,
   SmallCardContainer,
-} from './styles'
+} from "./styles";
 
 interface SmallCardType extends CoffeeProps {
-  onRemoveFromCart: () => void
+  onRemoveFromCart: () => void;
 }
 
 export function SmallCard({
@@ -22,17 +25,17 @@ export function SmallCard({
   price,
   onRemoveFromCart,
 }: SmallCardType) {
-  const { increment, decrement, coffeesCart } = useCoffee()
+  const { increment, decrement, coffeesCart } = useContext(CoffeeContext);
 
   function handleIncrement(id: number) {
-    increment(id)
+    increment(id);
   }
 
   function handleDecrement(id: number) {
-    decrement(id)
+    decrement(id);
   }
 
-  const isCoffeeAlreadyAddToCart = coffeesCart.find((c) => c.id === id)
+  const isCoffeeAlreadyAddToCart = coffeesCart.find((c) => c.id === id);
 
   return (
     <SmallCardContainer>
@@ -56,5 +59,5 @@ export function SmallCard({
 
       <strong>R$ {formatPrice(price)}</strong>
     </SmallCardContainer>
-  )
+  );
 }

@@ -1,5 +1,8 @@
-import { motion } from 'framer-motion'
-import { CurrencyDollar, MapPin, Timer } from 'phosphor-react'
+import { useContext } from "react";
+import { motion } from "framer-motion";
+import { CurrencyDollar, MapPin, Timer } from "phosphor-react";
+
+import { CoffeeContext } from "../../context/CoffeeContext";
 
 import {
   IconStyled,
@@ -8,19 +11,18 @@ import {
   SuccessContainer,
   SuccessContentGrided,
   TextHeader,
-} from './styles'
+} from "./styles";
 
-import illustration from '../../assets/illustration.svg'
-import { useCoffee } from '../../hooks/useCoffee'
+import illustration from "../../assets/illustration.svg";
 
 export function Success() {
-  const { formData } = useCoffee()
+  const { formData } = useContext(CoffeeContext);
 
   return (
     <SuccessContainer>
       <motion.div
         initial={{ width: 0 }}
-        animate={{ width: '100%' }}
+        animate={{ width: "100%" }}
         exit={{ x: window.innerWidth }}
         transition={{ duration: 0.1 }}
       >
@@ -36,10 +38,10 @@ export function Success() {
                   <MapPin size={16} weight="fill" />
                 </IconStyled>
                 <p>
-                  Entrega em{' '}
+                  Entrega em{" "}
                   <strong>
                     {formData.rua}, {formData.numero}
-                  </strong>{' '}
+                  </strong>{" "}
                   <br />
                   {formData.bairro} - {formData.cidade}, {formData.uf}
                 </p>
@@ -73,5 +75,5 @@ export function Success() {
         </SuccessContentGrided>
       </motion.div>
     </SuccessContainer>
-  )
+  );
 }

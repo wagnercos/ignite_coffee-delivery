@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react'
-import { MapPin, ShoppingCart } from 'phosphor-react'
-import { NavLink } from 'react-router-dom'
-import { useCoffee } from '../../hooks/useCoffee'
+import { useContext, useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { MapPin, ShoppingCart } from "phosphor-react";
+
+import { CoffeeContext } from "../../context/CoffeeContext";
+import { FormDataProps } from "../../reducers/reducer";
+
 import {
   HeaderContainer,
   Nav,
@@ -9,44 +12,43 @@ import {
   Locale,
   AmountMarker,
   Wrapper,
-} from './styles'
+} from "./styles";
 
-import logo from '../../assets/logo.svg'
-import { FormDataProps } from '../../reducers/coffees/reducer'
+import logo from "../../assets/logo.svg";
 
 export function Header() {
-  const [city, setCity] = useState<FormDataProps>()
-  const [isScrolled, setIsScrolled] = useState(false)
+  const [city, setCity] = useState<FormDataProps>();
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const { coffeesCart } = useCoffee()
+  const { coffeesCart } = useContext(CoffeeContext);
 
   useEffect(() => {
     async function loadCity(): Promise<void> {
-      const getStorage = localStorage.getItem('@Coffee_Delivery:form-data')
+      const getStorage = localStorage.getItem("@Coffee_Delivery:form-data");
       if (getStorage) {
-        setCity({ ...JSON.parse(getStorage) })
+        setCity({ ...JSON.parse(getStorage) });
       }
     }
-    loadCity()
-  }, [])
+    loadCity();
+  }, []);
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   function handleScroll() {
     if (window.scrollY > 50) {
-      setIsScrolled(true)
+      setIsScrolled(true);
     } else {
-      setIsScrolled(false)
+      setIsScrolled(false);
     }
   }
 
-  const coffeesSelected = coffeesCart.length
+  const coffeesSelected = coffeesCart.length;
 
   return (
     <HeaderContainer isScrolled={isScrolled}>
@@ -70,5 +72,5 @@ export function Header() {
         </NavGroup>
       </Nav>
     </HeaderContainer>
-  )
+  );
 }
